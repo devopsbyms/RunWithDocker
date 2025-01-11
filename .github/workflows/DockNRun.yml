@@ -20,7 +20,7 @@ jobs:
   # Job 2: Run in a Docker container
   # --memory=512m --memory-swap=1g --entrypoint /bin/sh --workdir /github/workspace --volume /var/run/docker.sock:/var/run/docker.sockn
   docker-run:
-    depends-on: direct-run
+    needs: direct-run
     runs-on: ubuntu-latest
     container: 
       image: python:3.9-slim
