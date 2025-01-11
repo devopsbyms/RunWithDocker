@@ -1,0 +1,37 @@
+name: Jobs and Docker Containers Example
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  # Job 1: Run directly on the Ubuntu runner
+  direct-run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Run script
+        run: |
+          echo "Hello, world!"
+          echo "This job runs directly on the Ubuntu runner."
+
+  # Job 2: Run in a Docker container
+  # --memory=512m --memory-swap=1g --entrypoint /bin/sh --workdir /github/workspace --volume /var/run/docker.sock:/var/run/docker.sockn
+  docker-run:
+    runs-on: ubuntu-latest
+    container: 
+      image: python:3.9-slim
+      options: |
+        --memory=512m
+        --cpus=1
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Run script
+        run: |
+          python --version
+          echo "print('Hello from Docker container!')" > script.py
+          python script.py
+          
